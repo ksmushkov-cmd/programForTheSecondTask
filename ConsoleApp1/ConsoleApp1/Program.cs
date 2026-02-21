@@ -150,3 +150,53 @@ namespace ZooProject {
       animals.Add(new Reptile("Змейка", 3, "пустыня", "хищник", 2, "зелёный", true));
       animals.Add(new Amphibian("Квак", 2, "болото", "насекомые", 0.3, "зелёный", 8));
     }
+
+    // Method for adding a new animal
+    public void AddAnimal(Animal animal) {
+      animals.Add(animal);
+      Console.WriteLine($" Animal {animal.Name} successfully added to the zoo!");
+    }
+
+    // Method for showing all animals
+    public void ShowAllAnimals() {
+      if (animals.Count == 0) {
+        Console.WriteLine(" There are no animals in the zoo yet.");
+        return;
+      }
+
+      Console.WriteLine("\n========== OUR ZOO ==========");
+      for (int animalCounter = 0; animalCounter < animals.Count; ++animalCounter) {
+        Console.WriteLine($"\n--- Animal #{animalCounter + 1} ---");
+        Console.WriteLine(animals[animalCounter].GetInfo());
+      }
+      Console.WriteLine($"\nTotal animals: {animals.Count}");
+    }
+
+    // Method for searching an animal by name
+    public void FindAnimalByName(string name) {
+      bool found = false;
+      foreach (var animal in animals) {
+        if (animal.Name.ToLower().Contains(name.ToLower())) {
+          Console.WriteLine("\n🔍 Найдено животное:");
+          Console.WriteLine(animal.GetInfo());
+          found = true;
+        }
+      }
+
+      if (!found) {
+        Console.WriteLine("❌ Животное с таким именем не найдено");
+      }
+    }
+
+    // Метод для показа животного по номеру
+    public void ShowAnimalByIndex(int animalPosition) {
+      if (animalPosition < 0 || animalPosition >= animals.Count) {
+        Console.WriteLine("❌ Неправильный номер животного");
+        return;
+      }
+
+      Console.WriteLine($"\n🐾 Животное #{animalPosition + 1}:");
+      Console.WriteLine(animals[animalPosition].GetInfo());
+    }
+  }
+
