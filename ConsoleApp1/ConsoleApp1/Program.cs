@@ -1,20 +1,18 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 
 namespace ZooProject {
   // BASIC CLASS Animal 
   abstract class Animal {
-    // Properties are information about an animal.
-    public string Name { get; set; }           // Nickname
+
+    public string Name { get; set; }            // Nickname
     public int Age { get; set; }                // Age
     public string Habitat { get; set; }         // Where it lives (forest, water, desert)
     public string FoodType { get; set; }        // What does it eat(predator, herbivore)
     public double Weight { get; set; }          // Weight in kilogram
     public string Color { get; set; }           // Color
 
-    // Constructor - creates a new animal
+
     public Animal(string name, int age, string habitat, string foodType, double weight, string color) {
       Name = name;
       Age = age;
@@ -24,7 +22,7 @@ namespace ZooProject {
       Color = color;
     }
 
-    // The virtual method can be supplemented in children's classes
+    
     public virtual string GetInfo() {
       return $"Nickname: {Name}, Age: {Age} years, " +
              $"Habitat: {Habitat}, Nutrition: {FoodType}, " +
@@ -32,11 +30,9 @@ namespace ZooProject {
     }
   }
 
-  // SUCCESSOR CLASSES
-  // Each class adds its own feature
-  // Mammal
+
   class Mammal : Animal {
-  // A unique property for mammals: do they have fur
+    // A unique property for mammals: do they have fur
     public bool HasFur { get; set; }
 
     public Mammal(string name, int age, string habitat, string foodType, double weight, string color, bool hasFur)
@@ -44,16 +40,16 @@ namespace ZooProject {
             HasFur = hasFur;
     }
 
-    // Overriding the method to add unique information
+
     public override string GetInfo() {
       string furInfo = HasFur ? "there is wool" : "there is no wool";
       return base.GetInfo() + $", Type: Mammal, {furInfo}";
     }
   }
 
-  // Bird
+
   class Bird : Animal {
-    // A unique property for birds is their wingspan.
+    
     public double WingSpan { get; set; } // in meters
 
     public Bird(string name, int age, string habitat, string foodType, double weight, string color, double wingSpan)
@@ -66,7 +62,7 @@ namespace ZooProject {
     }
   }
 
-  // Fish
+
   class Fish : Animal {
     // A unique property for fish is the type of water    
     public string WaterType { get; set; } // "fresh" or "sea"
@@ -81,7 +77,7 @@ namespace ZooProject {
     }
   }
 
-  // Reptile
+  
   class Reptile : Animal {
     // Unique property - toxicity
     public bool IsVenomous { get; set; }
@@ -97,7 +93,7 @@ namespace ZooProject {
     }
   }
 
-  // Amphibian
+
   class Amphibian : Animal {
     // Unique property -skin moisture(from 0 to 10)
     public int SkinMoisture { get; set; } // 0 - dry, 10 - very wet
@@ -109,58 +105,66 @@ namespace ZooProject {
 
     public override string GetInfo() {
       string moistureLevel;
-        if (SkinMoisture < 3) moistureLevel = "dry";
-        else if (SkinMoisture < 7) moistureLevel = "normal";
-        else moistureLevel = "wet";
+      int limitOne, limitTwo; 
+      limitOne = 3;
+      limitTwo = 7;
+      if (SkinMoisture < limitOne) {
+        moistureLevel = "dry";
+      }
+      else if (SkinMoisture < limitTwo) {
+        moistureLevel = "normal";
+      }
+      else {
+        moistureLevel = "wet";
+      }
 
-        return base.GetInfo() + $", Type: Amphibian, Skin: {moistureLevel} (level {SkinMoisture}/10)";
+      return $"Moisture level: {moistureLevel}";
     }
   }
 
-  // SINGLETON MANAGER
-  class ZooManager {
-    // A static variable stores a single caretaker
+    class ZooManager {
+   
     private static ZooManager _instance;
 
-    // List of all animals in the zoo
+    
     private List<Animal> animals = new List<Animal>();
 
-    // Private constructor - cannot create a new overseer
+    
     private ZooManager() {
       // Let's add a few animals right away as an example.    
       AddSampleAnimals();
     }
-    // Property for obtaining a single caretaker   
+       
     public static ZooManager Instance {
       get {
-        // If the caretaker has not yet been created, create it
-                
+                        
         if (_instance == null) {
            _instance = new ZooManager();
         }
+
         return _instance;
       }
     }
 
-    // Adding examples of animals 
+     
     private void AddSampleAnimals() {
-      animals.Add(new Mammal("Лео", 5, "саванна", "хищник", 150, "золотистый", true));
-      animals.Add(new Bird("Кеша", 2, "лес", "всеядное", 0.5, "пёстрый", 0.3));
-      animals.Add(new Fish("Немо", 1, "океан", "хищник", 0.1, "оранжевый", "морская"));
-      animals.Add(new Reptile("Змейка", 3, "пустыня", "хищник", 2, "зелёный", true));
-      animals.Add(new Amphibian("Квак", 2, "болото", "насекомые", 0.3, "зелёный", 8));
+      animals.Add(new Mammal("Leo", 5, "savannah", "predator", 150, "golden", true));
+      animals.Add(new Bird("Kesha", 2, "forest", "omnivore", 0.5, "motley", 0.3));
+      animals.Add(new Fish("Nemo", 1, "ocean", "predator", 0.1, "orange", "maritime"));
+      animals.Add(new Reptile("Zmeyka", 3, "desert", "predator", 2, "green", true));
+      animals.Add(new Amphibian("Kvak", 2, "swamp", "insects", 0.3, "green", 8));
     }
 
-    // Method for adding a new animal
+    
     public void AddAnimal(Animal animal) {
       animals.Add(animal);
-      Console.WriteLine($" Animal {animal.Name} successfully added to the zoo!");
+      Console.WriteLine($"Animal {animal.Name} successfully added to the zoo!");
     }
 
-    // Method for showing all animals
+    
     public void ShowAllAnimals() {
       if (animals.Count == 0) {
-        Console.WriteLine(" There are no animals in the zoo yet.");
+        Console.WriteLine("There are no animals in the zoo yet.");
         return;
       }
 
@@ -170,9 +174,10 @@ namespace ZooProject {
         Console.WriteLine(animals[animalCounter].GetInfo());
       }
       Console.WriteLine($"\nTotal animals: {animals.Count}");
+
     }
 
-    // Method for searching an animal by name
+    
     public void FindAnimalByName(string name) {
       bool found = false;
       foreach (var animal in animals) {
@@ -188,19 +193,19 @@ namespace ZooProject {
       }
     }
 
-    // Method for showing an animal by number
-    public void ShowAnimalByIndex(int animalPosition) {
-      if (animalPosition < 0 || animalPosition >= animals.Count) {
-        Console.WriteLine("❌ Неправильный номер животного");
+   
+    public void ShowAnimalByIndex(int animalIndex) {
+      if (animalIndex < 0 || animalIndex >= animals.Count) {
+        Console.WriteLine("Неправильный номер животного");
         return;
       }
 
-      Console.WriteLine($"\n🐾 Животное #{animalPosition + 1}:");
-      Console.WriteLine(animals[animalPosition].GetInfo());
+      Console.WriteLine($"\nЖивотное #{animalIndex + 1}:");
+      Console.WriteLine(animals[animalIndex].GetInfo());
     }
   }
 
-  // MAIN PROGRAM
+
   class Program {
     static void Main(string[] args) {
       Console.WriteLine(" WELCOME TO THE ELECTRONIC ZOO!");
@@ -211,17 +216,18 @@ namespace ZooProject {
       bool isRunning = true;
 
       while (isRunning) {
-        // Показываем меню
+        
         Console.WriteLine("\n ZOO MANAGEMENT MENU:\n" +
-                              "1. Show all animals\n" +
-                              "2. Find an animal by name\n" +
-                              "3. Find an animal by name\n" +
-                              "4. Add a new animal\n" +
-                              "5. Log out\n");
+                          "1. Show all animals\n" +
+                          "2. Find an animal by name\n" +
+                          "3. Find an animal by index\n" +
+                          "4. Add a new animal\n" +
+                          "5. Log out\n");
                 
         Console.Write("Select an action (1-5): ");
 
-        string choice = Console.ReadLine();
+        string choice;
+        choice = Console.ReadLine();
 
         switch (choice) {
           case "1":
@@ -230,7 +236,8 @@ namespace ZooProject {
 
           case "2":
             Console.Write("Enter the name of the animal to search: ");
-            string searchName = Console.ReadLine();
+            string searchName;
+            searchName = Console.ReadLine();
             zoo.FindAnimalByName(searchName);
             break;
 
@@ -266,73 +273,106 @@ namespace ZooProject {
       }
     }
 
-    // Method for adding a new animal
+    
     static void AddNewAnimal(ZooManager zoo) {
-      Console.WriteLine("\n ADDING A NEW ANIMAL" +
+      Console.WriteLine("\n ADDING A NEW ANIMAL\n" +
                         "Select animal type:\n" +
                         "1. Mammal\n" +
                         "2. Bird\n" +
                         "3. Fish\n" +
                         "4. Reptile\n" +
                         "5. Amphibian\n");
-      Console.WriteLine("Ваш выбор (1-5):\n");
+      Console.Write("Your choice (1-5):");
 
-      string type = Console.ReadLine();
+      string type;
+      type = Console.ReadLine();
 
       // General information for all animals
       Console.Write("Nickname: ");
-      string name = Console.ReadLine();
+      string name;
+      name = Console.ReadLine();
 
       Console.Write("Age (years): ");
-      int age = int.Parse(Console.ReadLine());
-
+      int age;
+      age = int.Parse(Console.ReadLine());
+ 
       Console.Write("Habitat (forest, water, desert, etc.): ");
-      string habitat = Console.ReadLine();
+      string habitat;
+      habitat = Console.ReadLine();
 
       Console.Write("Diet type (carnivore, herbivore, omnivore): ");
-      string foodType = Console.ReadLine();
+      string foodType;
+      foodType = Console.ReadLine();
 
       Console.Write("Weight (kg): ");
-      double weight = double.Parse(Console.ReadLine());
+      double weight;
+      weight = double.Parse(Console.ReadLine());
 
       Console.Write("Color: ");
-      string color = Console.ReadLine();
+      string color;
+      color = Console.ReadLine();
  
       // Create an animal of the required type with a unique property
       switch (type) {
+
         case "1": // Mammal
           Console.Write("Is there fur? (yes/no): ");
-          bool hasFur = Console.ReadLine().ToLower() == "yes";
-          zoo.AddAnimal(new Mammal(name, age, habitat, foodType, weight, color, hasFur));
+          string furInput = Console.ReadLine().ToLower();
+
+          while (furInput != "yes" && furInput != "no") {
+            Console.Write("Please enter 'yes' or 'no': ");
+            furInput = Console.ReadLine().ToLower();
+          }
+
+          bool hasFur;
+          hasFur = furInput == "yes";
           break;
 
         case "2": // Bird
           Console.Write("Wingspan (in meters, eg 0.5): ");
-          double wingSpan = double.Parse(Console.ReadLine());
+          double wingSpan;
+          wingSpan = double.Parse(Console.ReadLine());
           zoo.AddAnimal(new Bird(name, age, habitat, foodType, weight, color, wingSpan));
           break;
 
         case "3": // Fish
           Console.Write("Water type (fresh/sea): ");
-          string waterType = Console.ReadLine();
+          string waterType;
+          waterType = Console.ReadLine();
           zoo.AddAnimal(new Fish(name, age, habitat, foodType, weight, color, waterType));
           break;
 
         case "4": // Reptile
           Console.Write("Poisonous? (yes/no): ");
-          bool isVenomous = Console.ReadLine().ToLower() == "yes";
-          zoo.AddAnimal(new Reptile(name, age, habitat, foodType, weight, color, isVenomous));
+          string input;
+          input = Console.ReadLine().ToLower();
+
+          while (input != "yes" && input != "no") {
+            Console.Write("Please enter 'yes' or 'no': ");
+            input = Console.ReadLine().ToLower();
+          }
+
+          bool isVenomous;
+          isVenomous = input == "yes";
           break;
 
-        case "5": // Amphibian
-          Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
-          int moisture = int.Parse(Console.ReadLine());
-          zoo.AddAnimal(new Amphibian(name, age, habitat, foodType, weight, color, moisture));
-          break;
+      case "5": // Amphibian
+        Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
+        int moisture;
+        moisture = int.Parse(Console.ReadLine());
+                    
+        int limitMoistureOne, limitMoistureTwo;
+        limitMoistureOne = 0;
+        limitMoistureTwo = 10;
+        while (moisture < limitMoistureOne || moisture > limitMoistureTwo) {
+          Console.Write("Number out of range. Please enter a number between 0 and 10: ");
+          moisture = int.Parse(Console.ReadLine());
+        }
+        break;
 
-        default:
-          Console.WriteLine("Wrong type of animal");
-          break;
+      default:
+        Console.WriteLine("Wrong type of animal");
+        break;
       }
     }
   }
