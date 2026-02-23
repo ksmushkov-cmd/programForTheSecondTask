@@ -12,7 +12,6 @@ namespace ZooProject {
     public double Weight { get; set; }          // Weight in kilogram
     public string Color { get; set; }           // Color
 
-
     public Animal(string name, int age, string habitat, string foodType, double weight, string color) {
       Name = name;
       Age = age;
@@ -22,14 +21,12 @@ namespace ZooProject {
       Color = color;
     }
 
-    
     public virtual string GetInfo() {
       return $"Nickname: {Name}, Age: {Age} years, " +
              $"Habitat: {Habitat}, Nutrition: {FoodType}, " +
              $"Weight: {Weight} kg, Color: {Color}";
     }
   }
-
 
   class Mammal : Animal {
     // A unique property for mammals: do they have fur
@@ -40,13 +37,11 @@ namespace ZooProject {
             HasFur = hasFur;
     }
 
-
     public override string GetInfo() {
       string furInfo = HasFur ? "there is wool" : "there is no wool";
       return base.GetInfo() + $", Type: Mammal, {furInfo}";
     }
   }
-
 
   class Bird : Animal {
     
@@ -62,7 +57,6 @@ namespace ZooProject {
     }
   }
 
-
   class Fish : Animal {
     // A unique property for fish is the type of water    
     public string WaterType { get; set; } // "fresh" or "sea"
@@ -77,7 +71,6 @@ namespace ZooProject {
     }
   }
 
-  
   class Reptile : Animal {
     // Unique property - toxicity
     public bool IsVenomous { get; set; }
@@ -92,7 +85,6 @@ namespace ZooProject {
       return base.GetInfo() + $", Type: Reptile, {venomInfo}";
     }
   }
-
 
   class Amphibian : Animal {
     // Unique property -skin moisture(from 0 to 10)
@@ -122,13 +114,10 @@ namespace ZooProject {
     }
   }
 
-    class ZooManager {
+  class ZooManager {
    
     private static ZooManager _instance;
-
-    
     private List<Animal> animals = new List<Animal>();
-
     
     private ZooManager() {
       // Let's add a few animals right away as an example.    
@@ -146,7 +135,6 @@ namespace ZooProject {
       }
     }
 
-     
     private void AddSampleAnimals() {
       animals.Add(new Mammal("Leo", 5, "savannah", "predator", 150, "golden", true));
       animals.Add(new Bird("Kesha", 2, "forest", "omnivore", 0.5, "motley", 0.3));
@@ -204,7 +192,6 @@ namespace ZooProject {
       Console.WriteLine(animals[animalIndex].GetInfo());
     }
   }
-
 
   class Program {
     static void Main(string[] args) {
@@ -273,7 +260,6 @@ namespace ZooProject {
       }
     }
 
-    
     static void AddNewAnimal(ZooManager zoo) {
       Console.WriteLine("\n ADDING A NEW ANIMAL\n" +
                         "Select animal type:\n" +
