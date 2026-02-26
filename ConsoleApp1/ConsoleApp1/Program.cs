@@ -102,15 +102,13 @@ namespace ZooProject {
       limitTwo = 7;
       if (SkinMoisture < limitOne) {
         moistureLevel = "dry";
-      }
-      else if (SkinMoisture < limitTwo) {
+      } else if (SkinMoisture < limitTwo) {
         moistureLevel = "normal";
-      }
-      else {
+      } else {
         moistureLevel = "wet";
       }
 
-      return $"Moisture level: {moistureLevel}";
+      return base.GetInfo() + $"\nMoisture level:{moistureLevel}";
     }
   }
 
@@ -143,13 +141,11 @@ namespace ZooProject {
       animals.Add(new Amphibian("Kvak", 2, "swamp", "insects", 0.3, "green", 8));
     }
 
-    
     public void AddAnimal(Animal animal) {
       animals.Add(animal);
       Console.WriteLine($"Animal {animal.Name} successfully added to the zoo!");
     }
 
-    
     public void ShowAllAnimals() {
       if (animals.Count == 0) {
         Console.WriteLine("There are no animals in the zoo yet.");
@@ -157,6 +153,7 @@ namespace ZooProject {
       }
 
       Console.WriteLine("\n========== OUR ZOO ==========");
+
       for (int animalCounter = 0; animalCounter < animals.Count; ++animalCounter) {
         Console.WriteLine($"\n--- Animal #{animalCounter + 1} ---");
         Console.WriteLine(animals[animalCounter].GetInfo());
@@ -164,7 +161,6 @@ namespace ZooProject {
       Console.WriteLine($"\nTotal animals: {animals.Count}");
 
     }
-
     
     public void FindAnimalByName(string name) {
       bool found = false;
@@ -172,6 +168,7 @@ namespace ZooProject {
         if (animal.Name.ToLower().Contains(name.ToLower())) {
           Console.WriteLine("\nAnimal found:");
           Console.WriteLine(animal.GetInfo());
+
           found = true;
         }
       }
@@ -181,17 +178,25 @@ namespace ZooProject {
       }
     }
 
-   
     public void ShowAnimalByIndex(int animalIndex) {
       if (animalIndex < 0 || animalIndex >= animals.Count) {
-        Console.WriteLine("Неправильный номер животного");
+        Console.WriteLine("Incorrect home number");
         return;
       }
-
-      Console.WriteLine($"\nЖивотное #{animalIndex + 1}:");
+      Console.WriteLine($"\nAnimal #{animalIndex + 1}:");
       Console.WriteLine(animals[animalIndex].GetInfo());
     }
-  }
+
+    public void ShowMenu() {
+      Console.WriteLine("\n ZOO MANAGEMENT MENU:\n" +
+                         "1. Show all animals\n" +
+                         "2. Find an animal by name\n" +
+                         "3. Find an animal by index\n" +
+                         "4. Add a new animal\n" +
+                         "5. Log out\n");
+      Console.Write("Select an action (1-5): ");
+    }
+  } 
 
   class Program {
     static void Main(string[] args) {
@@ -204,14 +209,7 @@ namespace ZooProject {
 
       while (isRunning) {
         
-        Console.WriteLine("\n ZOO MANAGEMENT MENU:\n" +
-                          "1. Show all animals\n" +
-                          "2. Find an animal by name\n" +
-                          "3. Find an animal by index\n" +
-                          "4. Add a new animal\n" +
-                          "5. Log out\n");
-                
-        Console.Write("Select an action (1-5): ");
+        zoo.ShowMenu();
 
         string choice;
         choice = Console.ReadLine();
@@ -219,21 +217,20 @@ namespace ZooProject {
         switch (choice) {
           case "1":
             zoo.ShowAllAnimals();
-            break;
+          break;
 
           case "2":
+            string searchName;                      
             Console.Write("Enter the name of the animal to search: ");
-            string searchName;
-            searchName = Console.ReadLine();
+            searchName = Console.ReadLine();                                 
             zoo.FindAnimalByName(searchName);
             break;
 
           case "3":
             Console.Write("Enter animal number (1, 2, 3...): ");
             if (int.TryParse(Console.ReadLine(), out int animalNumber)) {
-              zoo.ShowAnimalByIndex(animalNumber - 1); 
-            }
-            else {
+              zoo.ShowAnimalByIndex(animalNumber - 1);
+            } else {
               Console.WriteLine("Enter a number!");
             }
             break;
@@ -245,7 +242,7 @@ namespace ZooProject {
           case "5":
             isRunning = false;
             Console.WriteLine("Goodbye! Come to the zoo again!");
-            break;
+          break;
 
           default:
             Console.WriteLine("Incorrect choice. Try again.");
@@ -269,63 +266,68 @@ namespace ZooProject {
                         "4. Reptile\n" +
                         "5. Amphibian\n");
       Console.Write("Your choice (1-5):");
-
+       
       string type;
-      type = Console.ReadLine();
 
-      // General information for all animals
-      Console.Write("Nickname: ");
+      Console.Write("Your choice (1-5):");
+      type = Console.ReadLine();
+    
       string name;
+      int age;
+      string habitat;
+      string foodType;
+      double weight;
+      string color;
+ 
+      Console.Write("Nickname: ");
       name = Console.ReadLine();
 
       Console.Write("Age (years): ");
-      int age;
       age = int.Parse(Console.ReadLine());
- 
+
       Console.Write("Habitat (forest, water, desert, etc.): ");
-      string habitat;
       habitat = Console.ReadLine();
 
       Console.Write("Diet type (carnivore, herbivore, omnivore): ");
-      string foodType;
       foodType = Console.ReadLine();
 
       Console.Write("Weight (kg): ");
-      double weight;
       weight = double.Parse(Console.ReadLine());
 
       Console.Write("Color: ");
-      string color;
       color = Console.ReadLine();
- 
+
+      Animal newAnimal = null;
+
       // Create an animal of the required type with a unique property
       switch (type) {
+      case "1": // Mammal
+        Console.Write("Is there fur? (yes/no): ");
+        string furInput;
+        furInput = Console.ReadLine().ToLower();
 
-        case "1": // Mammal
-          Console.Write("Is there fur? (yes/no): ");
-          string furInput = Console.ReadLine().ToLower();
+        while (furInput != "yes" && furInput != "no") {
+          Console.Write("Please enter 'yes' or 'no': ");
+          furInput = Console.ReadLine().ToLower();
+        }
 
-          while (furInput != "yes" && furInput != "no") {
-            Console.Write("Please enter 'yes' or 'no': ");
-            furInput = Console.ReadLine().ToLower();
-          }
-
-          bool hasFur;
-          hasFur = furInput == "yes";
-          break;
+        bool hasFur;
+        hasFur = furInput == "yes";           
+        newAnimal = new Mammal(name, age, habitat, foodType, weight, color, hasFur);
+        break;
 
         case "2": // Bird
           Console.Write("Wingspan (in meters, eg 0.5): ");
           double wingSpan;
-          wingSpan = double.Parse(Console.ReadLine());
-          zoo.AddAnimal(new Bird(name, age, habitat, foodType, weight, color, wingSpan));
+          wingSpan = double.Parse(Console.ReadLine());        
+          newAnimal = new Bird(name, age, habitat, foodType, weight, color, wingSpan);
           break;
 
         case "3": // Fish
           Console.Write("Water type (fresh/sea): ");
           string waterType;
-          waterType = Console.ReadLine();
-          zoo.AddAnimal(new Fish(name, age, habitat, foodType, weight, color, waterType));
+          waterType = Console.ReadLine();       
+          newAnimal = new Fish(name, age, habitat, foodType, weight, color, waterType);
           break;
 
         case "4": // Reptile
@@ -334,31 +336,37 @@ namespace ZooProject {
           input = Console.ReadLine().ToLower();
 
           while (input != "yes" && input != "no") {
-            Console.Write("Please enter 'yes' or 'no': ");
-            input = Console.ReadLine().ToLower();
+             Console.Write("Please enter 'yes' or 'no': ");
+             input = Console.ReadLine().ToLower();
           }
-
           bool isVenomous;
-          isVenomous = input == "yes";
+          isVenomous = input == "yes";    
+          newAnimal = new Reptile(name, age, habitat, foodType, weight, color, isVenomous);
           break;
 
-      case "5": // Amphibian
-        Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
-        int moisture;
-        moisture = int.Parse(Console.ReadLine());
-                    
-        int limitMoistureOne, limitMoistureTwo;
-        limitMoistureOne = 0;
-        limitMoistureTwo = 10;
-        while (moisture < limitMoistureOne || moisture > limitMoistureTwo) {
-          Console.Write("Number out of range. Please enter a number between 0 and 10: ");
+        case "5": // Amphibian
+          Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
+          int moisture;
           moisture = int.Parse(Console.ReadLine());
-        }
-        break;
 
-      default:
-        Console.WriteLine("Wrong type of animal");
-        break;
+          int limitMoistureOne, limitMoistureTwo;
+          limitMoistureOne = 0;
+          limitMoistureTwo = 10;
+
+          while (moisture < limitMoistureOne || moisture > limitMoistureTwo) {
+            Console.Write("Number out of range. Please enter a number between 0 and 10: ");
+            moisture = int.Parse(Console.ReadLine());
+          }     
+          newAnimal = new Amphibian(name, age, habitat, foodType, weight, color, moisture);
+          break;
+
+        default:
+          Console.WriteLine("Wrong type of animal");
+          break;
+        }
+
+      if (newAnimal != null) {
+        zoo.AddAnimal(newAnimal);
       }
     }
   }
