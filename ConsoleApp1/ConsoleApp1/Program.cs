@@ -100,8 +100,8 @@ namespace ZooProject {
       int limitOne, limitTwo; 
       limitOne = 3;
       limitTwo = 7;
-      if (SkinMoisture < limitOne) {
 
+      if (SkinMoisture < limitOne) {
         moistureLevel = "dry";
       } else if (SkinMoisture < limitTwo) {
         moistureLevel = "normal";
@@ -236,6 +236,7 @@ namespace ZooProject {
             } else {
               Console.WriteLine("Enter a number!");
             }
+
             break;
 
           case "4":
@@ -245,7 +246,7 @@ namespace ZooProject {
           case "5":
             isRunning = false;
             Console.WriteLine("Goodbye! Come to the zoo again!");
-          break;
+            break;
 
           default:
             Console.WriteLine("Incorrect choice. Try again.");
@@ -319,56 +320,56 @@ namespace ZooProject {
           newAnimal = new Mammal(name, age, habitat, foodType, weight, color, hasFur);
           break;
 
-          case "2": // Bird
-            Console.Write("Wingspan (in meters, eg 0.5): ");
-            double wingSpan;
-            wingSpan = double.Parse(Console.ReadLine());        
-            newAnimal = new Bird(name, age, habitat, foodType, weight, color, wingSpan);
-            break;
+        case "2": // Bird
+          Console.Write("Wingspan (in meters, eg 0.5): ");
+          double wingSpan;
+          wingSpan = double.Parse(Console.ReadLine());        
+          newAnimal = new Bird(name, age, habitat, foodType, weight, color, wingSpan);
+          break;
 
-          case "3": // Fish
-            Console.Write("Water type (fresh/sea): ");
-            string waterType;
-            waterType = Console.ReadLine();       
-            newAnimal = new Fish(name, age, habitat, foodType, weight, color, waterType);
-            break;
+        case "3": // Fish
+          Console.Write("Water type (fresh/sea): ");
+          string waterType;
+          waterType = Console.ReadLine();       
+          newAnimal = new Fish(name, age, habitat, foodType, weight, color, waterType);
+          break;
 
-          case "4": // Reptile
-            Console.Write("Poisonous? (yes/no): ");
-            string input;
+        case "4": // Reptile
+          Console.Write("Poisonous? (yes/no): ");
+          string input;
+          input = Console.ReadLine().ToLower();
+
+          while (input != "yes" && input != "no") {
+            Console.Write("Please enter 'yes' or 'no': ");
             input = Console.ReadLine().ToLower();
-
-            while (input != "yes" && input != "no") {
-              Console.Write("Please enter 'yes' or 'no': ");
-              input = Console.ReadLine().ToLower();
-            }
-
-            bool isVenomous;
-            isVenomous = input == "yes";    
-            newAnimal = new Reptile(name, age, habitat, foodType, weight, color, isVenomous);
-            break;
-
-          case "5": // Amphibian
-            Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
-            int moisture;
-            moisture = int.Parse(Console.ReadLine());
-
-            int limitMoistureOne, limitMoistureTwo;
-            limitMoistureOne = 0;
-            limitMoistureTwo = 10;
-
-            while (moisture < limitMoistureOne || moisture > limitMoistureTwo) {
-              Console.Write("Number out of range. Please enter a number between 0 and 10: ");
-              moisture = int.Parse(Console.ReadLine());
-            }  
-            
-            newAnimal = new Amphibian(name, age, habitat, foodType, weight, color, moisture);
-            break;
-
-          default:
-            Console.WriteLine("Wrong type of animal");
-            break;
           }
+
+          bool isVenomous;
+          isVenomous = input == "yes";    
+          newAnimal = new Reptile(name, age, habitat, foodType, weight, color, isVenomous);
+          break;
+
+        case "5": // Amphibian
+          Console.Write("Skin moisture (0 - dry to 10 - very moist): ");
+          int moisture;
+          moisture = int.Parse(Console.ReadLine());
+
+          int limitMoistureOne, limitMoistureTwo;
+          limitMoistureOne = 0;
+          limitMoistureTwo = 10;
+
+          while (moisture < limitMoistureOne || moisture > limitMoistureTwo) {
+            Console.Write("Number out of range. Please enter a number between 0 and 10: ");
+            moisture = int.Parse(Console.ReadLine());
+          }  
+            
+          newAnimal = new Amphibian(name, age, habitat, foodType, weight, color, moisture);
+          break;
+
+        default:
+          Console.WriteLine("Wrong type of animal");
+          break;
+        }
 
       if (newAnimal != null) {
         zoo.AddAnimal(newAnimal);
